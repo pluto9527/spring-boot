@@ -9,7 +9,7 @@
     <meta name="author" content=""/>
     <link rel="icon" href="https://getbootstrap.com/favicon.ico"/>
 
-    <title>Dashboard Template for Bootstrap</title>
+    <title>员工修改</title>
 
     <!-- Bootstrap core CSS -->
     <link href="./Dashboard_files/bootstrap.min.css" th:href="@{/asserts/css/bootstrap.min.css}" rel="stylesheet"/>
@@ -42,7 +42,7 @@
     </style>
 </head>
 
-<body th:inline="text">
+<body>
 <!--引入抽取的topbar-->
 <!--模板名会使用thymeleaf的规则-->
 <div th:replace="commons/bar::topbar"></div>
@@ -63,41 +63,57 @@
                     <div style="position:absolute;width:200%;height:200%;left:0; top:0"></div>
                 </div>
             </div>
+            <form th:action="@{/emp}" method="post">
+                <!--发送put请求-->
+                <!--1.SpringMVC配置HiddenHttpMethodFilter; (SpringBoot自动配置好的)
+                    2.页面创建一个post表单
+                    3.创建一个 input项, name="_method"; 值就是我们指定的请求的方式-->
+                <input type="hidden" name="_method" value="put" th:if="${emp!=null}">
 
-            <h2><a href="#" th:href="@{/emp}" class="btn btn-success">添加按钮</a></h2>
-            <div class="table-responsive">
-                <table class="table table-striped table-sm">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>lastName</th>
-                        <th>email</th>
-                        <th>gender</th>
-                        <th>department</th>
-                        <th>birth</th>
-                        <th>操作</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="emp:${emps}">
-                        <td th:text="${emp.id}">1</td>
-                        <td th:text="${emp.lastName}">1</td>
-                        <td th:text="${emp.email}">1</td>
-                        <td th:text="${emp.gender}">1</td>
-                        <td th:text="${emp.department.departmentName}">1</td>
-                        <td th:text="${#dates.format(emp.birth,'yyyy-MM-dd HH:mm:ss')}">1</td>
-                        <td>
-                            <a href="#" th:href="@{/emp/}+${emp.id}" class="btn btn-sm btn-primary">编辑</a>
-                            <button th:attr="del_uri=@{/emp/}+${emp.id}" class="btn btn-sm btn-danger deleteBtn">删除</button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+                <input type="hidden" name="id" th:value="${emp.id}" th:if="${emp!=null}">
+                <!-- LastName -->
+                <div class="form-group">
+                    <label for="LastName">LastName</label>
+                    <input type="text" class="form-control" id="LastName" name="lastName" placeholder="LastName"
+                           th:value="${emp!=null}?${emp.lastName}">
+                </div>
+                <!-- Email -->
+                <div class="form-group">
+                    <label for="Email">Email</label>
+                    <input type="email" class="form-control" id="Email" name="email" placeholder="zhangsan@163.com"
+                           th:value="${emp!=null}?${emp.email}">
+                </div>
+                <!--gender-->
+                <div class="form-group">
+                    <label>Gender</label><br/>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="gender" value="1"
+                               th:checked="${emp!=null}?${emp.gender}==1">
+                        <label class="form-check-label">男</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="gender" value="0"
+                               th:checked="${emp!=null}?${emp.gender}==0">
+                        <label class="form-check-label">女</label>
+                    </div>
+                </div>
+                <!-- department -->
+                <div class="form-group">
+                    <label>department</label>
+                    <select class="form-control" name="department.id">
+                        <!--提交的是部门id-->
+                        <option th:selected="${emp!=null}?${dept.id == emp.department.id}" th:each="dept:${depts}"
+                                th:value="${dept.id}" th:text="${dept.departmentName}"></option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="birthDate">Birth</label>
+                    <input type="text" class="form-control" id="birthDate" placeholder="2012-12-12" name="birth"
+                           th:value="${emp!=null}?${#dates.format(emp.birth,'yyyy-MM-dd HH:mm:ss')}">
+                </div>
+                <button type="submit" class="btn btn-primary" th:text="${emp!=null}?'修改':'添加'">添 加</button>
+            </form>
         </main>
-        <form id="deleteEmpForm" method="post">
-            <input type="hidden" name="_method" value="delete">
-        </form>
     </div>
 </div>
 
@@ -111,14 +127,9 @@
 <!-- Icons -->
 <script src="./Dashboard_files/feather.min.js" th:src="@{/asserts/js/feather.min.js}"></script>
 <script>
-    feather.replace()
+    // feather.replace()
 </script>
 
-<script>
-    $(".deleteBtn").click(function () {
-        $("#deleteEmpForm").attr("action", $(this).attr("del_uri")).submit();
-    })
-</script>
 
 </body>
 </html>

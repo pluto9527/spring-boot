@@ -1,4 +1,4 @@
-package com.jcfc.springboot.component;
+package com.jcfc.springboot.intercepter;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
