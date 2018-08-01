@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 //使用WebMvcConfigurerAdapter可以来扩展SpringMVC的功能
 @Configuration
-public class MyConfig extends WebMvcConfigurerAdapter {
+public class MyMvcConfig extends WebMvcConfigurerAdapter {
 
     //方式二：直接返回WebMvcConfigurationSupport到ioc容器中
     @Bean
