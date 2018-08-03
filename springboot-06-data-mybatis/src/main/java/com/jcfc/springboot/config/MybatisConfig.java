@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 public class MybatisConfig {
 
     //开启驼峰匹配
+    //如果yml中配置了config-location，那么配置类中的ConfigurationCustomizer就不起作用了，所以要重新配置驼峰
     @Bean
     public ConfigurationCustomizer configurationCustomizer() {
         return new ConfigurationCustomizer() {
