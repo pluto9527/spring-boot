@@ -5,7 +5,7 @@ import com.jcfc.springboot.service.TicketService;
 import org.springframework.stereotype.Component;
 
 @Component
-@Service   //将服务发布出去
+@Service  //将服务发布出去
 public class TicketServiceImpl implements TicketService {
 
     @Override
