@@ -1,0 +1,13 @@
+# 服务消费者
+server:
+  port: 8081
+spring:
+  application:
+    name: eureka-consumer
+
+eureka:
+  instance:
+    prefer-ip-address: true  #注册服务的时候使用服务的ip地址,如果不配置就是机器的主机名。
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
