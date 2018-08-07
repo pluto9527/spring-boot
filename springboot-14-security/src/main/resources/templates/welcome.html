@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8" http-equiv="Content-Type" content="text/html">
+    <title>Title</title>
+</head>
+<body>
+    <h1 align="center">欢迎光临！</h1>
+    <!--未登录显示-->
+    <div sec:authorize="!isAuthenticated()">
+        <h5 align="center">查看 <a th:href="@{/userlogin}">请登录</a></h5>
+    </div>
+    <!--登录显示-->
+    <div sec:authorize="isAuthenticated()">
+        <h5>
+            <span sec:authentication="name"></span>,你好，您的角色有：<span sec:authentication="principal.authorities"></span>
+            <br>
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="注销">
+            </form>
+        </h5>
+    </div>
+
+    <hr>
+
+    <div sec:authorize="hasRole('VIP1')">
+        <h3>普通秘籍</h3>
+        <a th:href="@{/level1/1}">全真剑法</a>
+    </div>
+
+    <div sec:authorize="hasRole('VIP2')">
+        <h3>高级秘籍</h3>
+        <a th:href="@{/level2/2}">七伤拳</a>
+    </div>
+
+    <div sec:authorize="hasRole('VIP3')">
+        <h3>绝世武功</h3>
+        <a th:href="@{/level3/3}">独孤九剑</a>
+    </div>
+</body>
+</html>
